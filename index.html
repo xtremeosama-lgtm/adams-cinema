@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adam's Cinema</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: red;
+      background: url('https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3') no-repeat center center fixed;
+      background-size: cover;
+    }
+    .overlay {
+      background: rgba(0, 0, 0, 0.6);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .signin-btn {
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px 20px;
+      background: black;
+      color: red;
+      border: 2px solid red;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .list {
+      margin: 20px auto;
+      max-width: 400px;
+      border: 2px solid red;
+      padding: 15px;
+      background: rgba(0,0,0,0.5);
+    }
+    .qr {
+      margin: 20px auto;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.5);
+      border: 2px dashed red;
+    }
+    /* Sign-in modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: black;
+      padding: 20px;
+      border: 2px solid red;
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      background: black;
+      color: red;
+      border: 1px solid red;
+    }
+    .error {
+      color: #ff6666;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>ADAM'S CINEMA</h1>
+
+    <button class="signin-btn" onclick="openModal()">Sign In</button>
+
+    <div class="qr" id="qrcode">Loading QR code…</div>
+
+    <div class="list">
+      <h2>WHEN?</h2>
+      <p>MY MELODY = 03:35</p>
+      <p>SKY DEFENDERS = 04:35</p>
+      <p>MINECRAFT = 05:35</p>
+      <p>GARFIELD = 06:35</p>
+    </div>
+
+    <div class="list">
+      <h2>TODAY SHOWING</h2>
+      <p>My Melody</p>
+      <p>Sky Defenders</p>
+      <p>Minecraft</p>
+      <p>Garfield</p>
+    </div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h2>Sign In</h2>
+      <button class="signin-btn" onclick="closeModal()">Cancel</button>
+      <input type="text" id="name" placeholder="Name" />
+      <input type="password" id="password" placeholder="Password" />
+      <button class="signin-btn" onclick="signIn()">Enter</button>
+      <p class="error" id="error">Incorrect name or password</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <script>
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+    }
+
+    function signIn() {
+      const nameValue = document.getElementById('name').value;
+      const passwordValue = document.getElementById('password').value;
+
+      if (nameValue === 'ADAM' && passwordValue === '15432') {
+        alert('Signed in successfully!');
+        closeModal();
+      } else {
+        document.getElementById('error').style.display = 'block';
+      }
+    }
+
+    window.onload = function () {
+      // If the QRCode library failed to load (no internet / CDN blocked)
+      if (typeof QRCode === 'undefined') {
+        document.getElementById('qrcode').innerText = 'QR code could not load (no internet)';
+        return;
+      }
+
+      new QRCode(document.getElementById('qrcode'), {
+        text: "Welcome to Adam's Cinema",
+        width: 180,
+        height: 180,
+        colorDark: '#ff0000',
+        colorLight: '#000000'
+      });
+    };
+  </script>
+</body>
+</html>
